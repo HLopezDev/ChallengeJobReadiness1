@@ -23,6 +23,8 @@
 		3D26E38E27F29296008836B1 /* FavoritiesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D26E38C27F29296008836B1 /* FavoritiesTableViewController.xib */; };
 		3D26E39127F2A95B008836B1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D26E38F27F2A95B008836B1 /* DetailViewController.swift */; };
 		3D26E39227F2A95B008836B1 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D26E39027F2A95B008836B1 /* DetailViewController.xib */; };
+		3D8C3A8B27F3601A0024EDFE /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C3A8927F3601A0024EDFE /* HomeTableViewCell.swift */; };
+		3D8C3A8C27F3601A0024EDFE /* HomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8C3A8A27F3601A0024EDFE /* HomeTableViewCell.xib */; };
 		E7CB55066F962A7449F9D190 /* Pods_Challenge1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DE05C1FFAE0FDD1CF69A37 /* Pods_Challenge1.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +66,8 @@
 		3D26E38C27F29296008836B1 /* FavoritiesTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoritiesTableViewController.xib; sourceTree = "<group>"; };
 		3D26E38F27F2A95B008836B1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3D26E39027F2A95B008836B1 /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		3D8C3A8927F3601A0024EDFE /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		3D8C3A8A27F3601A0024EDFE /* HomeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeTableViewCell.xib; sourceTree = "<group>"; };
 		619065D480888FE498A17D65 /* Pods-Challenge1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Challenge1Tests.debug.xcconfig"; path = "Target Support Files/Pods-Challenge1Tests/Pods-Challenge1Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		64469617A2F251BA4D0B7F02 /* Pods-Challenge1-Challenge1UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Challenge1-Challenge1UITests.release.xcconfig"; path = "Target Support Files/Pods-Challenge1-Challenge1UITests/Pods-Challenge1-Challenge1UITests.release.xcconfig"; sourceTree = "<group>"; };
 		A1E81C885C09B8D273AEE663 /* Pods-Challenge1-Challenge1UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Challenge1-Challenge1UITests.debug.xcconfig"; path = "Target Support Files/Pods-Challenge1-Challenge1UITests/Pods-Challenge1-Challenge1UITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -126,18 +130,12 @@
 		3D26E35427F221BA008836B1 /* Challenge1 */ = {
 			isa = PBXGroup;
 			children = (
+				3D8C3A8827F35CB40024EDFE /* View */,
 				3D26E35527F221BA008836B1 /* AppDelegate.swift */,
 				3D26E35727F221BA008836B1 /* SceneDelegate.swift */,
 				3D26E35E27F221BB008836B1 /* Assets.xcassets */,
 				3D26E36027F221BB008836B1 /* LaunchScreen.storyboard */,
 				3D26E36327F221BB008836B1 /* Info.plist */,
-				3D26E38527F25E7F008836B1 /* HomeTableViewController.swift */,
-				3D26E38627F25E7F008836B1 /* HomeTableViewController.xib */,
-				3D26E38927F28CB7008836B1 /* CustomTabBarController.swift */,
-				3D26E38B27F29296008836B1 /* FavoritiesTableViewController.swift */,
-				3D26E38C27F29296008836B1 /* FavoritiesTableViewController.xib */,
-				3D26E38F27F2A95B008836B1 /* DetailViewController.swift */,
-				3D26E39027F2A95B008836B1 /* DetailViewController.xib */,
 			);
 			path = Challenge1;
 			sourceTree = "<group>";
@@ -157,6 +155,22 @@
 				3D26E37827F221BC008836B1 /* Challenge1UITestsLaunchTests.swift */,
 			);
 			path = Challenge1UITests;
+			sourceTree = "<group>";
+		};
+		3D8C3A8827F35CB40024EDFE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3D26E38527F25E7F008836B1 /* HomeTableViewController.swift */,
+				3D26E38627F25E7F008836B1 /* HomeTableViewController.xib */,
+				3D26E38F27F2A95B008836B1 /* DetailViewController.swift */,
+				3D26E39027F2A95B008836B1 /* DetailViewController.xib */,
+				3D26E38927F28CB7008836B1 /* CustomTabBarController.swift */,
+				3D26E38B27F29296008836B1 /* FavoritiesTableViewController.swift */,
+				3D26E38C27F29296008836B1 /* FavoritiesTableViewController.xib */,
+				3D8C3A8927F3601A0024EDFE /* HomeTableViewCell.swift */,
+				3D8C3A8A27F3601A0024EDFE /* HomeTableViewCell.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		984312A9580D8E117CC73C9F /* Frameworks */ = {
@@ -295,6 +309,7 @@
 				3D26E36227F221BB008836B1 /* LaunchScreen.storyboard in Resources */,
 				3D26E39227F2A95B008836B1 /* DetailViewController.xib in Resources */,
 				3D26E35F27F221BB008836B1 /* Assets.xcassets in Resources */,
+				3D8C3A8C27F3601A0024EDFE /* HomeTableViewCell.xib in Resources */,
 				3D26E38E27F29296008836B1 /* FavoritiesTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,6 +440,7 @@
 			files = (
 				3D26E38727F25E7F008836B1 /* HomeTableViewController.swift in Sources */,
 				3D26E38A27F28CB7008836B1 /* CustomTabBarController.swift in Sources */,
+				3D8C3A8B27F3601A0024EDFE /* HomeTableViewCell.swift in Sources */,
 				3D26E35627F221BA008836B1 /* AppDelegate.swift in Sources */,
 				3D26E39127F2A95B008836B1 /* DetailViewController.swift in Sources */,
 				3D26E35827F221BA008836B1 /* SceneDelegate.swift in Sources */,

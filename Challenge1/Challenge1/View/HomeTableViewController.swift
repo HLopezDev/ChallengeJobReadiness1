@@ -9,7 +9,9 @@ import UIKit
 
 class HomeTableViewController: UITableViewController {
     let searchController = UISearchController()
-        
+    
+    @IBOutlet weak var homeTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.searchController = searchController
@@ -18,6 +20,9 @@ class HomeTableViewController: UITableViewController {
         searchController.searchBar.delegate = self
         navigationItem.hidesSearchBarWhenScrolling = false
         print("Home view corre")
+        registerTableViewCells()
+        
+        
         
 
         // Uncomment the following line to preserve selection between presentations
@@ -26,28 +31,42 @@ class HomeTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    func registerTableViewCells() {
+        let productCell = UINib(nibName: "HomeTableViewCell",bundle: nil)
+        self.homeTableView.register(productCell, forCellReuseIdentifier: "cell")
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 4
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as!
+        HomeTableViewCell
+        
+        
 
-        // Configure the cell...
 
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        category = categories[indexPath.row]
+//        vcDetail.type = category
+//        print("In tap tableview \(vcDetail.type) y participants \(vcDetail.participants)")
+//        self.navigationController?.pushViewController(vcDetail, animated: true)
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
