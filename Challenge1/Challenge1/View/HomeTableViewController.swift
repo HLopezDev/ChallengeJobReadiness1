@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 class HomeTableViewController: UITableViewController {
     let searchController = UISearchController()
+    let viewModel = HomeViewModel()
     
     @IBOutlet weak var homeTableView: UITableView!
     
@@ -46,7 +48,7 @@ class HomeTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 4
+        return viewModel.productCount
     }
 
     
@@ -54,6 +56,8 @@ class HomeTableViewController: UITableViewController {
         let cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as!
         HomeTableViewCell
         
+       
+            
         
 
 
@@ -128,7 +132,23 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchString = searchBar.text {
             
+            
+            
+//            let data = DataService()
+//            data.getCategory(searchString) { result in
+//                switch result {
+//                case .failure(let error):
+//                    print("from button: \(error)")
+//                case .success(let category):
+//                    print("from button: \(category[0])")
+//                }
+//            }
             print("search button click: \(searchString)")
+        }
+        
+        func bindViewModel() {
+            viewModel.$productList.sink { [weak self] _ in
+                self?.
         }
         
     }
