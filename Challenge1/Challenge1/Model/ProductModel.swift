@@ -8,18 +8,20 @@
 import Foundation
 
 struct Product: Decodable, Equatable {
-    let id: String
-    let name: String
-    let price: Int
-    let description: String
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: ProductCodingKeys.self)
-        name = try values.decode(String.self, forKey: .name)
-        id = try values.decode(String.self, forKey: .id)
-        price = try values.decode(Int.self, forKey: .price)
-        description = try values.decode(String.self, forKey: .description)
-    }
+//    let id: String
+//    let name: String
+//    let price: Int
+//    let description: String
+//    let date: String
+//    let city: String
+//    
+//    init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: ProductCodingKeys.self)
+//        name = try values.decode(String.self, forKey: .name)
+//        id = try values.decode(String.self, forKey: .id)
+//        price = try values.decode(Int.self, forKey: .price)
+//        description = try values.decode(String.self, forKey: .description)
+//    }
 }
 
 enum ProductCodingKeys: String, CodingKey {
@@ -27,4 +29,6 @@ enum ProductCodingKeys: String, CodingKey {
     case name = "name"
     case price = "price"
     case description = "content"
+    case date = "date"
+    case city = "city"
 }

@@ -14,9 +14,10 @@ struct TopItem: Decodable, Equatable {
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: TopItemCodingKeys.self)
-        position = try values.decode(Int.self, forKey: .position)
-        id = try values.decode(String.self, forKey: .id)
-        type = try values.decode(String.self, forKey: .type)
+        let content = try values.nestedContainer(keyedBy: TopItemCodingKeys.self, forKey: .content)
+        position = try content.decode(Int.self, forKey: .position)
+        id = try content.decode(String.self, forKey: .id)
+        type = try content.decode(String.self, forKey: .type)
     }
 }
 
@@ -24,6 +25,7 @@ enum TopItemCodingKeys: String, CodingKey {
     case position = "position"
     case id = "id"
     case type = "type"
+    case content = "content"
 }
 
 

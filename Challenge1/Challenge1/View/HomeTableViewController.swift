@@ -11,6 +11,9 @@ import Combine
 class HomeTableViewController: UITableViewController {
     let searchController = UISearchController()
     let viewModel = HomeViewModel()
+    private var subscribers: [AnyCancellable] = []
+    @Published var productList: [Product] = []
+    @Published var productCount: Int = 0
     
     @IBOutlet weak var homeTableView: UITableView!
     
@@ -48,19 +51,16 @@ class HomeTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return viewModel.productCount
+//        return productCount
+        return 4
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as!
+        var cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as!
         HomeTableViewCell
-        
+//        let cell = setCells(indexPath)
        
-            
-        
-
-
         return cell
     }
     
@@ -132,7 +132,7 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchString = searchBar.text {
             
-            
+            viewModel.pruebaConexion("MCO568924144")
             
 //            let data = DataService()
 //            data.getCategory(searchString) { result in
@@ -145,12 +145,32 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
 //            }
             print("search button click: \(searchString)")
         }
-        
-        func bindViewModel() {
-            viewModel.$productList.sink { [weak self] _ in
-                self?.
-        }
-        
     }
+        
+    func bindViewModel() {
+        viewModel.$productList
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$productList)
+//            .store(in: &subscribers)
+        
+        viewModel.$productCount
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$productCount)
+//            .store(in: &subscribers)
+    }
+    
+//    func setCells(_ index: IndexPath) -> UITableViewCell {
+//        let cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: index) as!
+//        HomeTableViewCell
+//
+//        cell.nameLabel.text = productList[index.row].name.capitalized
+//        cell.priceLabel.text = String(productList[index.row].price)
+//        cell.dateLabel.text = productList[index.row].date
+//        cell.cityLabel.text = productList[index.row].city.capitalized
+//
+//        return cell
+//    }
+        
+    
     
 }

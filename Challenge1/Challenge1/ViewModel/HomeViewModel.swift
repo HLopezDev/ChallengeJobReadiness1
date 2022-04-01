@@ -71,7 +71,19 @@ class HomeViewModel {
                 print("setProductList: \(error)")
             case .success(let products):
                 print("setProductList: \(products[0])")
-                self.productList = products
+//                self.productList = products
+            }
+        }
+    }
+    
+    func pruebaConexion(_ search: String) {
+        
+        data.getPrueba(search) { result in
+            switch result {
+            case .failure(let error):
+                print("setProductList: \(error)")
+            case .success(let products):
+                print("setProductList: \(products)")
             }
         }
     }

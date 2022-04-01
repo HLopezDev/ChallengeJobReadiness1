@@ -84,7 +84,7 @@ class DataService {
         }
     }
     
-    func getProductList(_ search: [TopItem], completion: @escaping (Result<[Product], NetworkError>) -> Void) {
+    func getProductList(_ search: [TopItem], completion: @escaping (Result<[Item], NetworkError>) -> Void) {
     
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(Constants.token)"
@@ -98,7 +98,7 @@ class DataService {
         }
         
         let request = AF.request(url, headers: headers)
-        request.responseDecodable(of: [Product].self) { (response) in
+        request.responseDecodable(of: [Item].self) { (response) in
             guard let products = response.value else {
                 print(response.error ?? "error")
                 print("data fail: \(String(describing: response.data))")
@@ -106,6 +106,32 @@ class DataService {
             }
             print("data success: \(String(describing: response.data))")
             print(products[0])
+            return completion(.success(products))
+        }
+    }
+    
+    func getPrueba(_ search: String, completion: @escaping (Result<[Item], NetworkError>) -> Void) {
+    
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(Constants.token)"
+//            "Content-Type": "application/X-Access-Token"
+                ]
+//        let itemsIds = search.map({ $0.id })
+        var url = "https://api.mercadolibre.com/items?ids=\(search)"
+        
+//        for id in itemsIds {
+//            url = url + ",\(id)"
+//        }
+        
+        let request = AF.request(url, headers: headers)
+        request.responseDecodable(of: [Item].self) { (response) in
+            guard let products = response.value else {
+                print(response.error ?? "error")
+                print("data fail: \(String(describing: response.data))")
+                return completion(.failure(.badDecodable))
+            }
+            print("data success: \(String(describing: response.data))")
+            print(products)
             return completion(.success(products))
         }
     }

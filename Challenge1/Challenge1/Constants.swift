@@ -9,5 +9,6 @@ import Foundation
 
 
 struct Constants {
-    static let token: String = "blablablajlkj"
+    static let token: String = "APP_USR-4160937847882337-040101-25ffe31c8ac8019335141b5be74b4df0-80256850"
+
 }

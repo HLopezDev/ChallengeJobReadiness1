@@ -14,6 +14,7 @@ struct Category: Decodable, Equatable {
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CategoryCodingKeys.self)
+//        let attributes = try values.nestedContainer(keyedBy: CategoryCodingKeys, forKey: .attributes)
         name = try values.decode(String.self, forKey: .name)
         categoryId = try values.decode(String.self, forKey: .categoryId)
     }
@@ -22,4 +23,5 @@ struct Category: Decodable, Equatable {
 enum CategoryCodingKeys: String, CodingKey {
     case name = "category_name"
     case categoryId = "category_id"
+//    case attributes = "attributes"
 }
