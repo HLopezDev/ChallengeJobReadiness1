@@ -14,23 +14,32 @@ class HomeViewModel {
     
     var categories: [Category] = [] {
         didSet {
-            setItemsList(categories[0].categoryId)
+            setTopItemsList(categories[0].categoryId)
         }
     }
     
-    var itemsList: [TopItem] = [] {
+    var topItemsList: [TopItem] = [] {
         didSet {
-            setProductList(itemsList)
+           setItemsDetail(topItemsList)
         }
     }
     
-    @Published var productList: [Product] = [] {
-        didSet {
-            productCount = productList.count
+    @Published var itemsList: [Item] = [] {
+        didSet{
+            itemCount = itemsList.count
+            print("Cuantos items llegaron al VM \(itemCount)")
         }
     }
     
-    @Published var productCount: Int = 0
+    @Published var itemCount: Int = 0
+    
+//    @Published var productList: [Product] = [] {
+//        didSet {
+//            productCount = productList.count
+//        }
+//    }
+//
+//    @Published var productCount: Int = 0
     
     
     init(dataSource: DataService = DataService()) {
@@ -50,40 +59,42 @@ class HomeViewModel {
         }
     }
     
-    func setItemsList(_ category: String) {
+    func setTopItemsList(_ category: String) {
         
         data.getTopItems(category) { result in
             switch result {
             case .failure(let error):
-                print("setItemsList: \(error)")
-            case .success(let topItem):
-                print("setItemsList: \(topItem)")
-                self.itemsList = topItem
+                print("setTopItemsList: \(error)")
+            case .success(let topItemContent):
+                print("setTopItemsList: \(topItemContent)")
+                self.topItemsList = topItemContent.content
             }
         }
     }
     
-    func setProductList(_ itemsList: [TopItem]) {
-        
-        data.getProductList(itemsList) { result in
-            switch result {
-            case .failure(let error):
-                print("setProductList: \(error)")
-            case .success(let products):
-                print("setProductList: \(products[0])")
-//                self.productList = products
-            }
-        }
-    }
+//    func setProductList(_ itemsList: TopItemsContent) {
+//
+//        let search: String = ""
+//        data.getProduct(search) { result in
+//            switch result {
+//            case .failure(let error):
+//                print("setProductList: \(error)")
+//            case .success(let products):
+//                print("setProductList: \(products)")
+////                self.productList = products
+//            }
+//        }
+//    }
     
-    func pruebaConexion(_ search: String) {
+    func setItemsDetail(_ search: [TopItem]) {
         
-        data.getPrueba(search) { result in
+        data.getTopItemsDetail(search){ result in
             switch result {
             case .failure(let error):
                 print("setProductList: \(error)")
-            case .success(let products):
-                print("setProductList: \(products)")
+            case .success(let items):
+                print("setProductList: \(items)")
+                self.itemsList = items
             }
         }
     }

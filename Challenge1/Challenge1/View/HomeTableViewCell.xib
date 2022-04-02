@@ -79,6 +79,7 @@
             <connections>
                 <outlet property="cityLabel" destination="PwP-Ss-AM9" id="O2s-nk-eft"/>
                 <outlet property="dateLabel" destination="7JP-7l-YEc" id="3mQ-j8-fYA"/>
+                <outlet property="itemImage" destination="W9l-hu-xGD" id="DRf-HY-GM3"/>
                 <outlet property="nameLabel" destination="Tnc-4z-iAB" id="Gik-jI-yyh"/>
                 <outlet property="priceLabel" destination="C4I-TA-DZh" id="DY9-DH-jMW"/>
             </connections>

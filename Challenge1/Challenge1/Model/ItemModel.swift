@@ -14,6 +14,7 @@ struct Body: Decodable {
     let secure_thumbnail: String
     let seller_address: SellerAddress
     let descriptions: [String]
+    let date_created: String
     
 }
 

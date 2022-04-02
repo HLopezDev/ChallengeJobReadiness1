@@ -11,9 +11,20 @@ import Combine
 class HomeTableViewController: UITableViewController {
     let searchController = UISearchController()
     let viewModel = HomeViewModel()
-    private var subscribers: [AnyCancellable] = []
-    @Published var productList: [Product] = []
-    @Published var productCount: Int = 0
+    private var subscribers: Set<AnyCancellable> = []
+    @Published var itemList: [Item] = [] {
+        didSet{
+            print("nuevo valor itemList HomeVC: ")
+            print(itemList)
+        }
+    }
+    @Published var itemCount: Int = 0 {
+        didSet {
+            print("Nuevo valor itemCount HomeVC: ")
+            print(itemCount)
+            tableView.reloadData()
+        }
+    }
     
     @IBOutlet weak var homeTableView: UITableView!
     
@@ -26,6 +37,7 @@ class HomeTableViewController: UITableViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         print("Home view corre")
         registerTableViewCells()
+        bindViewModel()
         
         
         
@@ -51,16 +63,16 @@ class HomeTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-//        return productCount
-        return 4
+        return itemCount
+//        return 4
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as!
-        HomeTableViewCell
-//        let cell = setCells(indexPath)
-       
+//        var cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as!
+//        HomeTableViewCell
+////        let cell = setCells(indexPath)
+       let cell = setCells(indexPath)
         return cell
     }
     
@@ -70,53 +82,6 @@ class HomeTableViewController: UITableViewController {
 //        print("In tap tableview \(vcDetail.type) y participants \(vcDetail.participants)")
 //        self.navigationController?.pushViewController(vcDetail, animated: true)
     }
-    
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
 }
 
 extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate {
@@ -132,45 +97,57 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchString = searchBar.text {
             
-            viewModel.pruebaConexion("MCO568924144")
+            viewModel.setCategories(searchString)
             
-//            let data = DataService()
-//            data.getCategory(searchString) { result in
-//                switch result {
-//                case .failure(let error):
-//                    print("from button: \(error)")
-//                case .success(let category):
-//                    print("from button: \(category[0])")
-//                }
-//            }
+            homeTableView.reloadData()
             print("search button click: \(searchString)")
         }
     }
         
     func bindViewModel() {
-        viewModel.$productList
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$productList)
-//            .store(in: &subscribers)
+        viewModel.$itemsList.sink { [weak self] list in
+            self?.itemList = list
+        }.store(in: &subscribers)
+        viewModel.$itemCount.sink { [weak self] count in
+            self?.itemCount = count
+        }.store(in: &subscribers)
         
-        viewModel.$productCount
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$productCount)
-//            .store(in: &subscribers)
+        print("bindVM se ejecuta")
+        
     }
     
-//    func setCells(_ index: IndexPath) -> UITableViewCell {
-//        let cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: index) as!
-//        HomeTableViewCell
-//
-//        cell.nameLabel.text = productList[index.row].name.capitalized
-//        cell.priceLabel.text = String(productList[index.row].price)
-//        cell.dateLabel.text = productList[index.row].date
-//        cell.cityLabel.text = productList[index.row].city.capitalized
-//
-//        return cell
-//    }
+    
+    func setCells(_ index: IndexPath) -> UITableViewCell {
+        let cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: index) as!
+        HomeTableViewCell
+        
+        cell.nameLabel.text = itemList[index.row].body.title
+        cell.priceLabel.text = customFormatter(itemList[index.row].body.price)
+        cell.dateLabel.text = String(
+            ISO8601DateFormatter()
+                .date(from: itemList[index.row].body.date_created)?
+                .formatted(date: .abbreviated, time: .omitted) ?? ""
+        )
+        cell.cityLabel.text = itemList[index.row].body.seller_address.city.name
+        //        cell.itemImage.image =
+        
+        return cell
+    }
+    
+    func customFormatter(_ number: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 0
+        let result = formatter.string(from: NSNumber(value: number))
+        return result ?? "0"
+    }
         
     
     
 }
+// in view controller 1
+//let vc2 = ViewController2()
+//vc2.viewModel = self.viewModel.viewModel2
+
+// el VM2 es instanciado por el viewmodel 1 y en el view controller 1 se lo pasas al viewcontroller 2 asignandole la variable.
+//https://stackoverflow.com/questions/43815549/ios-how-to-pass-a-model-from-view-model-to-view-model-using-mvvm

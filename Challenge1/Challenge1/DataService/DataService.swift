@@ -14,6 +14,7 @@ class DataService {
 //    TODO: Create protocol DataServiceProtocol
 //    TODO: Create baseUrl constant into the constants file.
     
+//    MARK: ESTE FUNCIONA
     func getCategory(_ search: String, completion: @escaping (Result<[Category], NetworkError>) -> Void) {
         
         let parameters: Parameters = [
@@ -41,7 +42,8 @@ class DataService {
         
     }
     
-    func getTopItems(_ search: String, completion: @escaping (Result<[TopItem], NetworkError>) -> Void) {
+//    MARK: ESTE FUNCIONA
+    func getTopItems(_ search: String, completion: @escaping (Result<TopItemsContent, NetworkError>) -> Void) {
     
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(Constants.token)"
@@ -50,20 +52,20 @@ class DataService {
         
         let url = "https://api.mercadolibre.com/highlights/MCO/category/\(search)"
         let request = AF.request(url, headers: headers)
-        request.responseDecodable(of: [TopItem].self) { (response) in
+        request.responseDecodable(of: TopItemsContent.self) { (response) in
             guard let topList = response.value else {
                 print(response.error ?? "error")
-                print("data fail: \(String(describing: response.data))")
+                print("data fail getTopItems: \(String(describing: response.data))")
                 return completion(.failure(.badDecodable))
             }
-            print("data success: \(String(describing: response.data))")
-            print(topList[0])
+            print("data success getTopItems: \(String(describing: response.data))")
+            print(topList)
             return completion(.success(topList))
             
         }
     }
         
-        func getItem(_ search: String, completion: @escaping (Result<Product, NetworkError>) -> Void) {
+    func getProduct(_ search: String, completion: @escaping (Result<Product, NetworkError>) -> Void) {
         
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer \(Constants.token)"
@@ -84,7 +86,7 @@ class DataService {
         }
     }
     
-    func getProductList(_ search: [TopItem], completion: @escaping (Result<[Item], NetworkError>) -> Void) {
+    func getTopItemsDetail(_ search: [TopItem], completion: @escaping (Result<[Item], NetworkError>) -> Void) {
     
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(Constants.token)"
@@ -99,14 +101,14 @@ class DataService {
         
         let request = AF.request(url, headers: headers)
         request.responseDecodable(of: [Item].self) { (response) in
-            guard let products = response.value else {
+            guard let items = response.value else {
                 print(response.error ?? "error")
-                print("data fail: \(String(describing: response.data))")
+                print("getTopItemDetail failed: \(String(describing: response.data))")
                 return completion(.failure(.badDecodable))
             }
-            print("data success: \(String(describing: response.data))")
-            print(products[0])
-            return completion(.success(products))
+            print("data success getTopItemDetail: \(String(describing: response.data))")
+            print(items[0])
+            return completion(.success(items))
         }
     }
     
