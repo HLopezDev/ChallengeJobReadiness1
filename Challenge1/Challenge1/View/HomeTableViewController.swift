@@ -11,7 +11,9 @@ import Combine
 class HomeTableViewController: UITableViewController {
     let searchController = UISearchController()
     let viewModel = HomeViewModel()
+    let vcDetail = DetailViewController()
     private var subscribers: Set<AnyCancellable> = []
+    
     @Published var itemList: [Item] = [] {
         didSet{
             print("nuevo valor itemList HomeVC: ")
@@ -77,10 +79,10 @@ class HomeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        category = categories[indexPath.row]
-//        vcDetail.type = category
-//        print("In tap tableview \(vcDetail.type) y participants \(vcDetail.participants)")
-//        self.navigationController?.pushViewController(vcDetail, animated: true)
+        let item = itemList[indexPath.row]
+        vcDetail.viewModel = DetailViewModel(item: item, vc: vcDetail)
+        print("Send it to Detail: \(item)")
+        self.navigationController?.pushViewController(vcDetail, animated: true)
     }
 }
 

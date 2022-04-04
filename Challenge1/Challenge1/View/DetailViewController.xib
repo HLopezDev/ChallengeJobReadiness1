@@ -10,7 +10,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController" customModule="Challenge1" customModuleProvider="target">
             <connections>
+                <outlet property="descriptionLabel" destination="yli-BP-Ix1" id="quh-eq-kR9"/>
                 <outlet property="favButton" destination="jdX-RH-Zb9" id="ozV-Eg-I1a"/>
+                <outlet property="itemImage" destination="rog-Sw-QTD" id="M24-Ve-BPZ"/>
+                <outlet property="priceLabel" destination="myQ-DJ-4XY" id="Rwf-Gl-pDL"/>
+                <outlet property="titleLabel" destination="bNI-Fl-VYw" id="VBe-ey-SJk"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -56,6 +60,9 @@
                                                         <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
                                                         <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
                                                     </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="favTapButton:" destination="-1" eventType="touchUpInside" id="Ro1-BK-cLU"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
@@ -68,7 +75,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contenido de la descripcion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yli-BP-Ix1">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contenido de la descripcion" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yli-BP-Ix1">
                                                     <rect key="frame" x="0.0" y="102" width="212.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
