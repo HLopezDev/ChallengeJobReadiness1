@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" rowHeight="150" id="KGk-i7-Jjw" customClass="HomeTableViewCell" customModule="Challenge1" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="370" height="150"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="370" height="150"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nbr-BW-A9i">
+                        <rect key="frame" x="10" y="10" width="350" height="130"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W9l-hu-xGD">
+                                <rect key="frame" x="0.0" y="1" width="150" height="127.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="NV0-Ug-l5b"/>
+                                </constraints>
+                                <imageReference key="image" image="car" catalog="system" renderingMode="original"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="TopLeft" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="nRG-o2-9ov">
+                                <rect key="frame" x="160" y="0.0" width="171" height="130"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volkswagen Gol 1.6 bla bla" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-4z-iAB">
+                                        <rect key="frame" x="0.0" y="0.0" width="171" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20.000.000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C4I-TA-DZh">
+                                        <rect key="frame" x="0.0" y="22" width="171" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="2019" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JP-7l-YEc">
+                                        <rect key="frame" x="0.0" y="51" width="171" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Bogota" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PwP-Ss-AM9">
+                                        <rect key="frame" x="0.0" y="70.5" width="171" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aX5-vS-stf">
+                                        <rect key="frame" x="0.0" y="90" width="171" height="40"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="nRG-o2-9ov" firstAttribute="leading" secondItem="W9l-hu-xGD" secondAttribute="trailing" constant="10" id="3aS-QA-T3J"/>
+                            <constraint firstAttribute="trailing" secondItem="nRG-o2-9ov" secondAttribute="trailing" constant="10" id="Qdy-Bw-psH"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="nbr-BW-A9i" secondAttribute="bottom" constant="10" id="4iB-JW-UyN"/>
+                    <constraint firstAttribute="trailing" secondItem="nbr-BW-A9i" secondAttribute="trailing" constant="10" id="Cnd-b0-iwZ"/>
+                    <constraint firstItem="nbr-BW-A9i" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="IQJ-wa-vuk"/>
+                    <constraint firstItem="nbr-BW-A9i" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Nxh-7A-qpy"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="cityLabel" destination="PwP-Ss-AM9" id="O2s-nk-eft"/>
+                <outlet property="dateLabel" destination="7JP-7l-YEc" id="3mQ-j8-fYA"/>
+                <outlet property="itemImage" destination="W9l-hu-xGD" id="DRf-HY-GM3"/>
+                <outlet property="nameLabel" destination="Tnc-4z-iAB" id="Gik-jI-yyh"/>
+                <outlet property="priceLabel" destination="C4I-TA-DZh" id="DY9-DH-jMW"/>
+            </connections>
+            <point key="canvasLocation" x="94.20289855072464" y="38.169642857142854"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="car" catalog="system" width="128" height="93"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
