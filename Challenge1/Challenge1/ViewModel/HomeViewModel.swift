@@ -27,11 +27,12 @@ class HomeViewModel {
     @Published var itemsList: [Item] = [] {
         didSet{
             itemCount = itemsList.count
-//            print("Cuantos items llegaron al VM \(itemCount)")
         }
     }
     
     @Published var itemCount: Int = 0
+    
+    @Published var status: Bool = false
 
     /**
      Call to the DataService to retrieve the suggested Category
@@ -43,6 +44,7 @@ class HomeViewModel {
          DataService.getCategory(search) { result in
             switch result {
             case .failure(let error):
+                self.status = true
                 print("setCategories: \(error)")
             case .success(let category):
                 print("setCategories: \(category[0])")
@@ -60,9 +62,9 @@ class HomeViewModel {
         DataService.getTopItems(category) { result in
             switch result {
             case .failure(let error):
+                self.status = true
                 print("setTopItemsList: \(error)")
             case .success(let topItemContent):
-//                print("setTopItemsList: \(topItemContent)")
                 self.topItemsList = topItemContent.content
             }
         }
@@ -77,9 +79,9 @@ class HomeViewModel {
         DataService.getTopItemsDetail(search){ result in
             switch result {
             case .failure(let error):
+                self.status = true
                 print("setProductList: \(error)")
             case .success(let items):
-//                print("setProductList: \(items)")
                 self.itemsList = items
             }
         }

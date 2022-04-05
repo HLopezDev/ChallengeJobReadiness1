@@ -18,13 +18,23 @@ class DetailViewModel {
     var favorites: Set<String> = []
     
 //    MARK: Publishers
-    @Published var inFavorite: Bool = false
+    @Published var inFavorite: Bool = false {
+        didSet{
+            if let id = item?.body.id {
+                if inFavorite {
+                    persistFavorite(id)
+                } else {
+                    deleteFavorite(id)
+                }
+            }
+        }
+    }
+    
     @Published var item: Item! = nil {
         didSet {
             if let id = self.item?.body.id {
                 inFavorite = self.favorites.contains(id)
             }
-            setFavorites()
         }
     }
     
@@ -32,6 +42,7 @@ class DetailViewModel {
     init(vc: DetailViewController) {
         self.vc = vc
         getFavorites()
+        bindingFavorites()
     }
     
 /**
@@ -43,29 +54,38 @@ class DetailViewModel {
         print("Initial Favorites: \(favorites)")
     }
     
-/**
-    Observe and persist the Favorites
- */
-    func setFavorites() {
-        let id = item.body.id
-        let exist = favorites.contains(id)
+    /**
+     Save the favorite into UserDefaults
+     */
+    func persistFavorite(_ id: String) {
         var favs: [String] = []
-        vc.$isFavorite.sink { [ weak self ] isFavorite in
-            if isFavorite == true {
-                self?.favorites.insert(id)
-                favs = Array(self?.favorites ?? [])
-                print("Favorite add VM: \(id)")
-                print("Favorites after add VM \(String(describing: self?.favorites))")
-                self?.userDefaults.set(favs, forKey: "favorites")
-            } else {
-                if exist {
-                    self?.favorites.remove(id)
-                    favs = Array(self?.favorites ?? [])
-                    self?.userDefaults.set(favs, forKey: "favorites")
-                    print("Remove from favorites VM: \(id)")
-                    print("Favorites after remove VM: \(favs)")
-                }
-            }
+        if !favorites.contains(id) {
+            self.favorites.insert(id)
+            favs = Array(self.favorites)
+            self.userDefaults.set(favs, forKey: "favorites")
+            print("persistFavorite: \(id)")
+        }
+    }
+    
+    /**
+     Delete the favorite
+     */
+    func deleteFavorite(_ id: String) {
+        var favs: [String] = []
+        if favorites.contains(id) {
+            self.favorites.remove(id)
+            favs = Array(self.favorites)
+            self.userDefaults.set(favs, forKey: "favorites")
+            print("deleteFavorite: \(id)")
+        }
+    }
+    
+    /**
+     Subscribe to the Publishers
+     */
+    func bindingFavorites() {
+        vc.$isFavorite.sink { [weak self] favorite in
+            self?.inFavorite = favorite
         }.store(in: &subscribers)
     }
 }

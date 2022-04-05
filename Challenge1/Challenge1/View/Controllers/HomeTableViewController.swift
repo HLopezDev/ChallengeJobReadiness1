@@ -16,14 +16,22 @@ class HomeTableViewController: UITableViewController {
     let viewModel = HomeViewModel()
     let vcDetail = DetailViewController()
     private var subscribers: Set<AnyCancellable> = []
+    let alert = UIAlertController(
+        title: Constants.titleErrorMessage,
+        message: Constants.errorMessage,
+        preferredStyle: .alert
+    )
     
-//    MARK: Publishers
-    @Published var itemList: [Item] = [] {
-        didSet{
-            print("nuevo valor itemList HomeVC: ")
-            print(itemList)
+    private var status: Bool = false {
+        didSet {
+            if status {
+                self.present(alert, animated: true)
+            }
         }
     }
+    
+//    MARK: Publishers
+    @Published var itemList: [Item] = []
     
     @Published var itemCount: Int = 0 {
         didSet {
@@ -42,6 +50,9 @@ class HomeTableViewController: UITableViewController {
         registerTableViewCells()
         bindViewModel()
         vcDetail.viewModel = DetailViewModel(vc: vcDetail)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            self.status = false
+        }))
     }
     
     func registerTableViewCells() {
@@ -102,7 +113,6 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
         if let searchString = searchBar.text {
             viewModel.setCategories(searchString)
             homeTableView.reloadData()
-            print("search button click: \(searchString)")
         }
     }
         
@@ -115,6 +125,9 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
         }.store(in: &subscribers)
         viewModel.$itemCount.sink { [weak self] count in
             self?.itemCount = count
+        }.store(in: &subscribers)
+        viewModel.$status.sink { [weak self] status in
+            self?.status = status
         }.store(in: &subscribers)
     }
     

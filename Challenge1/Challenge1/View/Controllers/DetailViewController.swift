@@ -14,11 +14,17 @@ class DetailViewController: UIViewController {
 //    MARK: Properties
     var viewModel: DetailViewModel! = nil
     private var subscribers: Set<AnyCancellable> = []
+    private var vmFavorite: Bool = false {
+        didSet {
+            setFavoriteButton(vmFavorite)
+        }
+    }
     
 //    MARK: Publishers
     @Published var isFavorite: Bool = false {
         didSet {
-            print("New Value isFavorite: \(isFavorite)")
+            setFavoriteButton(isFavorite)
+            print("New Value isFavorite DV: \(isFavorite)")
         }
     }
     @Published var item: Item! = nil
@@ -47,14 +53,10 @@ class DetailViewController: UIViewController {
 //    MARK: Actions - Received the input of the user and set the Favorites button in consequence.
     @IBAction func favImageButtonTapped(_ sender: UIButton) {
         isFavorite.toggle()
-        setFavoriteButton()
-//        print("favImageButtonTapped \(isFavorite)")
     }
     
     @IBAction func favTapButton(_ sender: UIButton) {
         isFavorite.toggle()
-        setFavoriteButton()
-//        print("favTapButton \(isFavorite)")
     }
 }
 
@@ -64,13 +66,13 @@ extension DetailViewController {
     /**
      Set the image for the state of the Favorite Button
      */
-    func setFavoriteButton() {
-        if isFavorite {
+    func setFavoriteButton(_ state: Bool) {
+        if state {
             favImageButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            print("setImage \(isFavorite)")
+            print("setImage favButton: \(state)")
         } else {
             favImageButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            print("setImage \(isFavorite)")
+            print("setImage favButton: \(state)")
         }
     }
     
@@ -83,7 +85,7 @@ extension DetailViewController {
         }.store(in: &subscribers)
         
         viewModel.$inFavorite.sink { [weak self] fav in
-            self?.isFavorite = fav
+            self?.vmFavorite = fav
         }.store(in: &subscribers)
     }
     
@@ -98,7 +100,6 @@ extension DetailViewController {
         cityLabel.text = item.body.seller_address.city.name
         stateLabel.text = item.body.seller_address.state.name
         countryLabel.text = item.body.seller_address.country.name
-        setFavoriteButton()
     }
     
     /**
