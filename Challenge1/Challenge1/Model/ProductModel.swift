@@ -7,28 +7,25 @@
 
 import Foundation
 
-struct Product: Decodable, Equatable {
-//    let id: String
-//    let name: String
-//    let price: Int
-//    let description: String
-//    let date: String
-//    let city: String
-//    
-//    init(from decoder: Decoder) throws {
-//        let values = try decoder.container(keyedBy: ProductCodingKeys.self)
-//        name = try values.decode(String.self, forKey: .name)
-//        id = try values.decode(String.self, forKey: .id)
-//        price = try values.decode(Int.self, forKey: .price)
-//        description = try values.decode(String.self, forKey: .description)
-//    }
+struct Product: Decodable {
+    let id: String
+    let name: String
+    let pictures: [ProductPictures]
+    let buy_box_winner: BuyBox
+    let short_description: ProductDescription
 }
 
-enum ProductCodingKeys: String, CodingKey {
-    case id = "id"
-    case name = "name"
-    case price = "price"
-    case description = "content"
-    case date = "date"
-    case city = "city"
+struct ProductPictures: Decodable {
+    let url: String
+}
+
+struct ProductDescription: Decodable {
+    let content: String
+}
+
+struct BuyBox: Decodable {
+    let price: Int
+    let warranty: String
+    let condition: String
+    let seller_address: SellerAddress
 }

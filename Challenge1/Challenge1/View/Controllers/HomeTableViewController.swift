@@ -7,19 +7,24 @@
 
 import UIKit
 import Combine
+import AlamofireImage
 
 class HomeTableViewController: UITableViewController {
+    
+//    MARK: Properties
     let searchController = UISearchController()
     let viewModel = HomeViewModel()
     let vcDetail = DetailViewController()
     private var subscribers: Set<AnyCancellable> = []
     
+//    MARK: Publishers
     @Published var itemList: [Item] = [] {
         didSet{
             print("nuevo valor itemList HomeVC: ")
             print(itemList)
         }
     }
+    
     @Published var itemCount: Int = 0 {
         didSet {
             print("Nuevo valor itemCount HomeVC: ")
@@ -28,27 +33,15 @@ class HomeTableViewController: UITableViewController {
         }
     }
     
+//    MARK: Outlets
     @IBOutlet weak var homeTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.searchController = searchController
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        navigationItem.hidesSearchBarWhenScrolling = false
-        print("Home view corre")
+        setUpUI()
         registerTableViewCells()
         bindViewModel()
-        
-        
-        
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        vcDetail.viewModel = DetailViewModel(vc: vcDetail)
     }
     
     func registerTableViewCells() {
@@ -56,56 +49,66 @@ class HomeTableViewController: UITableViewController {
         self.homeTableView.register(productCell, forCellReuseIdentifier: "cell")
     }
 
-    // MARK: - Table view data source
-
+//    MARK: Methods of the class
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return itemCount
-//        return 4
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        var cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as!
-//        HomeTableViewCell
-////        let cell = setCells(indexPath)
        let cell = setCells(indexPath)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = itemList[indexPath.row]
-        vcDetail.viewModel = DetailViewModel(item: item, vc: vcDetail)
+        vcDetail.viewModel.item = item
         print("Send it to Detail: \(item)")
         self.navigationController?.pushViewController(vcDetail, animated: true)
     }
 }
 
+// MARK: Extension - Implementation of custom methods.
 extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate {
     
-    func updateSearchResults(for searchController: UISearchController) {
-        if let searchString = searchController.searchBar.text {
-            
-            print("Y la busqueda es \(searchString)")
-        }
-        
+    /**
+     SetUp the appearance of the UI
+     */
+    func setUpUI() {
+        navigationController?.navigationBar.backgroundColor = UIColor(named: "CustomNavbarColor")
+        navigationController?.navigationBar.tintColor = UIColor.black
+        navigationItem.searchController = searchController
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.searchBar.searchTextField.backgroundColor = UIColor.white
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
+    func updateSearchResults(for searchController: UISearchController) {
+//        Method no implemented in this version
+        }
+    
+    /**
+     Request for a search with the input of the user.
+     - Parameters:
+        - searchBar: receive an instance of the searchBar and capture the input of the user
+                    to make the request to the remote server.
+     */
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchString = searchBar.text {
-            
             viewModel.setCategories(searchString)
-            
             homeTableView.reloadData()
             print("search button click: \(searchString)")
         }
     }
         
+    /**
+     Subscribe to Publishers in the HomeViewModel
+     */
     func bindViewModel() {
         viewModel.$itemsList.sink { [weak self] list in
             self?.itemList = list
@@ -113,16 +116,16 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
         viewModel.$itemCount.sink { [weak self] count in
             self?.itemCount = count
         }.store(in: &subscribers)
-        
-        print("bindVM se ejecuta")
-        
     }
     
-    
+    /**
+     Map each Item information into the views of the cell
+        - Parameters:
+           - index: The position for the object to map
+     */
     func setCells(_ index: IndexPath) -> UITableViewCell {
         let cell = homeTableView.dequeueReusableCell(withIdentifier: "cell", for: index) as!
         HomeTableViewCell
-        
         cell.nameLabel.text = itemList[index.row].body.title
         cell.priceLabel.text = customFormatter(itemList[index.row].body.price)
         cell.dateLabel.text = String(
@@ -131,11 +134,14 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
                 .formatted(date: .abbreviated, time: .omitted) ?? ""
         )
         cell.cityLabel.text = itemList[index.row].body.seller_address.city.name
-        //        cell.itemImage.image =
-        
+        let url = URL(string: itemList[index.row].body.secure_thumbnail)!
+        cell.itemImage.af.setImage(withURL: url)
         return cell
     }
     
+    /**
+     Format the number into a .currency format and return a String
+     */
     func customFormatter(_ number: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -143,13 +149,4 @@ extension HomeTableViewController: UISearchResultsUpdating, UISearchBarDelegate 
         let result = formatter.string(from: NSNumber(value: number))
         return result ?? "0"
     }
-        
-    
-    
 }
-// in view controller 1
-//let vc2 = ViewController2()
-//vc2.viewModel = self.viewModel.viewModel2
-
-// el VM2 es instanciado por el viewmodel 1 y en el view controller 1 se lo pasas al viewcontroller 2 asignandole la variable.
-//https://stackoverflow.com/questions/43815549/ios-how-to-pass-a-model-from-view-model-to-view-model-using-mvvm

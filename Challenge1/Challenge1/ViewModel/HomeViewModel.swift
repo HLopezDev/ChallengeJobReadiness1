@@ -10,8 +10,7 @@ import Combine
 
 class HomeViewModel {
     
-    var data: DataService!
-    
+//    MARK: Properties
     var categories: [Category] = [] {
         didSet {
             setTopItemsList(categories[0].categoryId)
@@ -24,31 +23,24 @@ class HomeViewModel {
         }
     }
     
+//    MARK: Publishers
     @Published var itemsList: [Item] = [] {
         didSet{
             itemCount = itemsList.count
-            print("Cuantos items llegaron al VM \(itemCount)")
+//            print("Cuantos items llegaron al VM \(itemCount)")
         }
     }
     
     @Published var itemCount: Int = 0
-    
-//    @Published var productList: [Product] = [] {
-//        didSet {
-//            productCount = productList.count
-//        }
-//    }
-//
-//    @Published var productCount: Int = 0
-    
-    
-    init(dataSource: DataService = DataService()) {
-        self.data = dataSource
-    }
-    
+
+    /**
+     Call to the DataService to retrieve the suggested Category
+     
+     - Parameters:
+        - search: Input of the user to begin the search
+     */
     func setCategories(_ search: String) {
-        
-         data.getCategory(search) { result in
+         DataService.getCategory(search) { result in
             switch result {
             case .failure(let error):
                 print("setCategories: \(error)")
@@ -59,41 +51,35 @@ class HomeViewModel {
         }
     }
     
+    /**
+     Retrieve the Top20 Items for the Category suggested
+     - Parameters:
+        - category: The id of the Category correspondent to a String
+     */
     func setTopItemsList(_ category: String) {
-        
-        data.getTopItems(category) { result in
+        DataService.getTopItems(category) { result in
             switch result {
             case .failure(let error):
                 print("setTopItemsList: \(error)")
             case .success(let topItemContent):
-                print("setTopItemsList: \(topItemContent)")
+//                print("setTopItemsList: \(topItemContent)")
                 self.topItemsList = topItemContent.content
             }
         }
     }
     
-//    func setProductList(_ itemsList: TopItemsContent) {
-//
-//        let search: String = ""
-//        data.getProduct(search) { result in
-//            switch result {
-//            case .failure(let error):
-//                print("setProductList: \(error)")
-//            case .success(let products):
-//                print("setProductList: \(products)")
-////                self.productList = products
-//            }
-//        }
-//    }
-    
+    /**
+     Retrieve of the detail of each Item
+     - Parameters:
+        - search: An array of TopItem objects
+     */
     func setItemsDetail(_ search: [TopItem]) {
-        
-        data.getTopItemsDetail(search){ result in
+        DataService.getTopItemsDetail(search){ result in
             switch result {
             case .failure(let error):
                 print("setProductList: \(error)")
             case .success(let items):
-                print("setProductList: \(items)")
+//                print("setProductList: \(items)")
                 self.itemsList = items
             }
         }

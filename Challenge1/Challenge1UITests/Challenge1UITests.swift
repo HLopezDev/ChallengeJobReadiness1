@@ -30,6 +30,12 @@ class Challenge1UITests: XCTestCase {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+    
+    func testSearchBar() throws {
+        let app = XCUIApplication()
+        app.launch()
+                
+    }
 
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
